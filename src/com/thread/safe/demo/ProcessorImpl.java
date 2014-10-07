@@ -8,21 +8,15 @@ public class ProcessorImpl implements Processor, Runnable {
 		this.processQueue();
 	}
 
-	private LinkedList<Runnable> procQueue = new LinkedList<Runnable>();
+	private LinkedList<Runnable> procQueueList = new LinkedList<Runnable>();
 
 	@Override
 	public void process(Runnable runJob) {
-
-		this.addToQueue(runJob);
-
-	}
-
-	public void addToQueue(Runnable job) {
-		synchronized (procQueue) {
-			procQueue.add(job);
+		synchronized (procQueueList) {
+			procQueueList.add(runJob);
 
 			// Wake up the thread which is currently awaiting the monitor
-			procQueue.notify();
+			procQueueList.notify();
 		}
 	}
 
@@ -34,11 +28,11 @@ public class ProcessorImpl implements Processor, Runnable {
 	@Override
 	public void run() {
 		while(true) {	    
-			while(procQueue.isEmpty()) {
-				synchronized (procQueue) {		    
+			while(procQueueList.isEmpty()) {
+				synchronized (procQueueList) {
 					try {
 						System.out.println("Queue is empty...");
-						procQueue.wait();
+						procQueueList.wait();
 
 						// Waiting for further input from user
 						System.out.println("Waiting...");
@@ -48,7 +42,8 @@ public class ProcessorImpl implements Processor, Runnable {
 				}
 			}
 
-			Job curr = (Job) procQueue.remove();
+			// Gets the head of the LinkedList, and runs runs it
+			Job curr = (Job) procQueueList.remove();
 			curr.run();
 
 		}
