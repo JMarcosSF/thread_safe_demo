@@ -8,7 +8,7 @@ public class ProcessorImpl implements Processor, Runnable {
 		this.processQueue();
 	}
 
-	private LinkedList<Runnable> procQueueList = new LinkedList<Runnable>();
+	private volatile LinkedList<Runnable> procQueueList = new LinkedList<Runnable>();
 
 	@Override
 	public void process(Runnable runJob) {

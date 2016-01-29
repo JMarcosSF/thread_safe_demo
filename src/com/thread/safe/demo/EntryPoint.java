@@ -25,7 +25,6 @@ public class EntryPoint {
 		ArrayList<Job> jobList = new ArrayList<Job>();
 
 		for(int i = 1; i <= 20; i++) {
-			
 			// Creating a new Runnable Job, and setting
 			// the Job's ID from it's constructor
 			Job tj = new Job(i);
