@@ -11,6 +11,7 @@ public class Job implements Runnable {
     @Override
     public void run() {
     	System.out.println("My ID is: " + this.getJobID());
+    	System.out.println("And I am doing some important processing...\n");
     }
 
     public int getJobID() {
